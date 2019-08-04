@@ -145,15 +145,15 @@ import Swal from 'sweetalert2'
         return (
 
               <div className="box-login">
-            <h1 className="title-form"><span>LOGIN</span></h1>
-            <div className="box-content">
-              <form className="form">
-                <div className="form-group">
-                  <span>Email</span><br />
-                  <input type="email" id="ip-email" onChange={this.handleChange} name="email" onBlur={this.handleInputValidation}></input>
-                    {this.FormError(this.state.isInputValid,
-                        this.state.errorMessage)}
-                </div>
+              <h1 className="title-form"><span>LOGIN</span></h1>
+              <div className="box-content">
+                <form className="form">
+                  <div className="form-group">
+                    <span>Email</span><br />
+                    <input type="email" id="ip-email" onChange={this.handleChange} name="email" onBlur={this.handleInputValidation}></input>
+                      {this.FormError(this.state.isInputValid,
+                          this.state.errorMessage)}
+                  </div>
                 <div className="form-group">
                   <span>Password</span><br />
                   <input type="password" id="ip-pass"name="password" onChange={this.handleChange}></input>
