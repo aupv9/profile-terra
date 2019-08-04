@@ -56,10 +56,13 @@ export const getProfile = (token) => {
 		}
 		axios.post('https://terralogic-training.web.app/api/get_profile',{},{headers:headers})
 		.then(data=>{	
+			if(data === null){
+				data="";
+			}
 			dispatch({
 				type: types.GET_PROFILE_SUCCESS,
 					isGet:true,
-					data: data.data
+					data: data
 				})
 			})
 		.catch(e=>{
@@ -67,12 +70,7 @@ export const getProfile = (token) => {
 			dispatch({
 				type: types.GET_PROFILE_FAIL,
 				isGet:false,
-				data:{
-						display_name:"",
-						display_info:"",
-						phone:"",
-						avatar: ""
-				}
+				data:{}
 			
 			})
 		})
