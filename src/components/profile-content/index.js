@@ -10,10 +10,10 @@ class Profile_Content extends Component {
         let user=nextProps.todos;
         if(user.isGetProfile){
             this.setState({
-                display_name:user.data.data.display_name,
-                display_info:user.data.data.display_info,
-                phone:user.data.data.phone,
-                avatar:user.data.data.avatar
+                display_name:user.data.data.display_name?user.data.data.display_name:"",
+                display_info:user.data.data.display_info?user.data.data.display_info:"",
+                phone:user.data.data.phone?user.data.data.phone:"",
+                avatar:user.data.data.avatar?user.data.data.avatar:""
             })
         }
         if(user.isSet){
