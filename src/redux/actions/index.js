@@ -67,7 +67,13 @@ export const getProfile = (token) => {
 			dispatch({
 				type: types.GET_PROFILE_FAIL,
 				isGet:false,
-				data:[]
+				data:{
+						display_name:"",
+						display_info:"",
+						phone:"",
+						avatar: ""
+				}
+			
 			})
 		})
 	} 
