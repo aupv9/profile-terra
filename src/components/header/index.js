@@ -8,6 +8,27 @@ import Swal from 'sweetalert2';
 
 class Header extends Component {
 
+    componentWillMount(){
+        if(localStorage.getItem("user")){
+            const user =JSON.parse( localStorage.getItem("user"));
+            console.log(user.data)
+            this.setState({
+                token:user.data,
+            })
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.todos.isLogout ){
+            this.setState({
+                isLogout:true
+            })
+        }
+        if(nextProps.todos.isLog){
+            this.setState({
+                isLogout:false
+            })
+        }
+    }
     state={
         token:"",
         isLogout:false
@@ -44,29 +65,14 @@ class Header extends Component {
             })
             }
           })
-        
     }
 
-    componentWillMount(){
-        if(localStorage.getItem("user")){
-            const user =JSON.parse( localStorage.getItem("user"));
-            console.log(user.data)
-            this.setState({
-                token:user.data,
-            })
-        }
-    }
-    componentWillReceiveProps(nextProps){
-        if(nextProps.todos.isLogout ){
-            console.log("logout success")
-            localStorage.removeItem("user")
-        }else{
-
-        }
-    }
     render() {
         if(!localStorage.getItem("user")){
             return <Redirect to="/"></Redirect>
+        }
+        if(this.state.isLogout){
+            localStorage.removeItem("user");
         }
         return (
             <div className="row" id="header">
@@ -98,5 +104,5 @@ const mapDispatchToProps = dispatch => {
         }
     }
 };
-// connect react với store của redux 
+
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

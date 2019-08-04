@@ -5,7 +5,8 @@ import {login} from '../../redux/actions'
 import Swal from 'sweetalert2'
  import {Link} from 'react-router-dom'
 
-class Login extends Component {
+
+ class Login extends Component {
 
     componentWillReceiveProps(nextProps){
         if(nextProps.todos.isLogin && this.state.isInputValid){
@@ -102,8 +103,6 @@ class Login extends Component {
                 }
         })
         }else{
-            // const passHash=hash.generate(this.state.password)
-            // console.log(hash.verify(this.state.password,passHash))
             this.props.onLogin(this.state.email,this.state.password)
             let timerInterval
             Swal.fire({
@@ -113,7 +112,6 @@ class Login extends Component {
               onBeforeOpen: () => {
                 Swal.showLoading()
                 timerInterval = setInterval(() => {
-                  
                 }, 100)
               },
               onClose: () => {
@@ -125,7 +123,6 @@ class Login extends Component {
               }
             })
         }
-    
     }
     
     render() {
@@ -144,30 +141,32 @@ class Login extends Component {
             localStorage.setItem("user",JSON.stringify({email:this.state.email,
                 password:this.state.password,data:this.state.data}))
             return <Redirect to="/profile"></Redirect>
-             
           }
         return (
-            <div  id="box-login">
-            <h1 id="title-login" className="title">LOGIN</h1>
-             <form id="form-login" >
-                 <div className="form-group">
-                 <label>Email</label><br />
-                 <input type="email" id="ip-email" onChange={this.handleChange} name="email" onBlur={this.handleInputValidation}></input>
-                 {this.FormError(this.state.isInputValid,
-                     this.state.errorMessage)}
-                 </div>
-                 <div className="form-group">
-                 <label>Password</label><br />
-                 <input type="password" id="ip-pass"name="password"onChange={this.handleChange}></input>
-                 </div>
-                 <div className="form-group">
-                     <button type="button" onClick={this.login} >LOGIN</button>
-                    <Link to="/home/sign-up" id="sign-up">
-                        <button type="button" >SIGN UP</button>
-                    </Link>
-                 </div>
-             </form>
-         </div>
+
+              <div className="box-login">
+            <h1 className="title-form"><span>LOGIN</span></h1>
+            <div className="box-content">
+              <form className="form">
+                <div className="form-group">
+                  <span>Email</span><br />
+                  <input type="email" id="ip-email" onChange={this.handleChange} name="email" onBlur={this.handleInputValidation}></input>
+                    {this.FormError(this.state.isInputValid,
+                        this.state.errorMessage)}
+                </div>
+                <div className="form-group">
+                  <span>Password</span><br />
+                  <input type="password" id="ip-pass"name="password" onChange={this.handleChange}></input>
+                </div>
+                <div className="form-group" id="group-btn">
+                  <button type="button" id="btn-login" onClick={this.login}>LOGIN</button>
+                  <Link to="/home/sign-up" id="sign-up">
+                            <button type="button" >SIGN UP</button>
+                        </Link>
+                </div>
+              </form>
+            </div>
+          </div>
         );
     }
 }

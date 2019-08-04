@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 import {Redirect} from 'react-router-dom'
 class Profile_Content extends Component {
 
-
     componentWillReceiveProps(nextProps){
         let user=nextProps.todos;
         if(user.isGetProfile){
@@ -14,18 +13,28 @@ class Profile_Content extends Component {
                 display_name:user.data.data.display_name,
                 display_info:user.data.data.display_info,
                 phone:user.data.data.phone,
-                avatar:user.data.data.avatar,
+                avatar:user.data.data.avatar
             })
         }
         if(user.isSet){
-            console.log(user.isSet)
-            console.log(nextProps.todos.data.data.data)
             this.setState({
                 display_name:nextProps.todos.data.data.data.display_name,
                display_info:nextProps.todos.data.data.data.display_info,
                phone:nextProps.todos.data.data.data.phone,
                avatar:nextProps.todos.data.data.data.avatar,
-           })
+               isUpdate:true
+            })
+        }
+    }
+    componentWillMount(){
+        if(localStorage.getItem("user")){
+            const user =JSON.parse( localStorage.getItem("user"));
+            console.log(user.data)
+            this.props.onGetProfile(user.data)
+            this.setState({
+                email:user.email,
+                password:user.password
+            })
         }
     }
     // variable global
@@ -40,10 +49,9 @@ class Profile_Content extends Component {
         file: "",
         avatar: ""
     }
-    // phương thức set lại thông tin user
+
     updateInfo = () =>{
         const {display_name,display_info, phone,avatar}=this.state;
-        // kiểm tra tính hợp lệ 
         if(!this.state.password || !this.state.display_name ||
             !this.state.display_info || !this.state.phone || !this.state.avatar){
             Swal.fire({
@@ -73,22 +81,32 @@ class Profile_Content extends Component {
                 }
         })
         }else{
-            // dữ liệu vào hợp lệ thì tiến hành update 
             const user =JSON.parse( localStorage.getItem("user"));
-            this.props.onUpdate({display_name,display_info, phone,avatar},user.data);   
+            this.props.onUpdate({display_name,display_info, phone,avatar},user.data); 
+            let timerInterval
             Swal.fire({
-                    title: 'Update Sucess' ,
-                    type:"success",
-                    animation: true,
-                    type: 'info',
-                    customClass: {
-                      popup: 'animated tada'
-                    }
-                })
+              title: 'Login!',
+              html: 'I will Set Profile in ... seconds.',
+              timer: 324232000,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              if (result.dismiss === Swal.DismissReason.timer) {
+                    
+              }
+            })
+           
         }
         
     }   
-    //lấy dữ liệu nhập từ bàn phím gán vào state
+
     handleChange=(e)=>{
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -97,7 +115,7 @@ class Profile_Content extends Component {
             [name]: value
         });
     }
-    // method lấy ảnh từ máy 
+
     handleChangeFile=(e)=>{
         let reader = new FileReader();
         let file = e.target.files[0];
@@ -109,20 +127,21 @@ class Profile_Content extends Component {
         }
         reader.readAsDataURL(file)
     }
-    componentWillMount(){
-        if(localStorage.getItem("user")){
-            const user =JSON.parse( localStorage.getItem("user"));
-            console.log(user.data)
-            this.props.onGetProfile(user.data)
-            this.setState({
-                email:user.email,
-                password:user.password
-            })
-        }
-    }
+   
     render() {
         if(localStorage.getItem("user") === null){
             return <Redirect to="/"></Redirect>
+        }
+        if(this.state.isUpdate){
+            Swal.fire({
+                title: 'Update Sucess' ,
+                type:"success",
+                animation: true,
+                type: 'info',
+                customClass: {
+                  popup: 'animated tada'
+                }
+            })
         }
         return (
             <div id="content" className="row">
@@ -138,31 +157,31 @@ class Profile_Content extends Component {
                         <div className="row form-group">
                             <div className="col-xs-6 div-input ">
                                  <label>Display Name</label><br></br>
-                                 <input type="text" defaultValue={this.state.display_name} name="display_name"  onChange={this.handleChange}></input>
+                                 <input type="text" defaultValue={this.state.display_name} name="display_name"  onChange={this.handleChange} placeholder="Your name"></input>
                             </div>
                             <div className="col-xs-6 div-input">
                             <label>Display Info</label><br></br>
-                                 <input type="text" name="display_info" defaultValue={this.state.display_info}onChange={this.handleChange} ></input>
+                                 <input type="text" name="display_info" defaultValue={this.state.display_info}onChange={this.handleChange} placeholder="Your info" ></input>
                             </div>
                         </div>
                         <div className="row form-group">
                             <div className="col-xs-6 div-input">
                                  <label>Email</label><br></br>
-                                 <input type="Email" disabled defaultValue={this.state.email} onChange={this.handleChange}></input>
+                                 <input type="Email" disabled defaultValue={this.state.email} onChange={this.handleChange} placeholder="Your Email"></input>
                             </div>
                             <div className="col-xs-6 div-input">
                             <label>Phone Number</label><br></br>
-                                 <input type="text" name="phone" defaultValue={this.state.phone}onChange={this.handleChange}></input>
+                                 <input type="text" name="phone" defaultValue={this.state.phone}onChange={this.handleChange} placeholder="Phone"></input>
                             </div>
                         </div>
                         <div className="row form-group">
                             <div className="col-xs-6 div-input">
                                  <label>New Password</label><br></br>
-                                 <input type="Password" name="password" onChange={this.handleChange}></input>
+                                 <input type="Password" name="password" onChange={this.handleChange} placeholder="Enter New Password"></input>
                             </div>
                             <div className="col-xs-6 div-input">
                             <label>Confim Password</label><br></br>
-                                 <input type="Password" name="confirmPassword" onChange={this.handleChange}></input>
+                                 <input type="Password" name="confirmPassword" onChange={this.handleChange} placeholder="Confirm Password"></input>
                             </div>
                         </div>
                         <div className="row button">
@@ -189,5 +208,5 @@ class Profile_Content extends Component {
             }
         }
     };
-    // connect react với store của redux 
+
 export default connect(mapStateToProps,mapDispatchToProps)(Profile_Content);

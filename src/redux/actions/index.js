@@ -101,7 +101,7 @@ export const update = (info,token) => {
 		const headers={
 			'x-user-token':token
 		}
-		axios.post(' https://terralogic-training.web.app/api/set_profile',info,{headers:headers})
+		axios.post('https://terralogic-training.web.app/api/set_profile',info,{headers:headers})
 		.then(data=>{	
 			dispatch({
 				type: types.SET_PROFILE_SUCCESS,

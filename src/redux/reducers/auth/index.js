@@ -9,7 +9,8 @@ var taskReducer=(state=initState,action)=>{
             return {
                 ...state,
                 isLogin: action.isLogin,
-                data:action.data
+                data:action.data,
+                isLogout:false,
             }
         case types.LOGIN_FAIL: 
             return  {
@@ -49,7 +50,7 @@ var taskReducer=(state=initState,action)=>{
             return  {
                 ...state,
                 isSet:action.isSet,
-                data: action.data
+                data: action.data,
             }    
         case types.LOGOUT_SUCCESS: 
             return  {
