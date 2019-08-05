@@ -6,15 +6,40 @@ import Swal from 'sweetalert2'
 
 class SignUp extends Component {
 
-    state={
-        isSignup:false,
-        email:"",
-        password:"",
-        confirmPassword:"",
-        isInputValid: true,
-        errorMessage: ''
-    }
-
+  
+    componentWillReceiveProps(nextProps){
+      if(nextProps.todos.isSignup && this.state.isInputValid){
+          Swal.fire({
+              title: 'Sign up success ',
+              animation: true,
+              type: 'success',
+              customClass: {
+                popup: 'animated tada'
+              }
+          
+      })  
+          this.setState({
+              isSignup:true
+          })
+      }else{
+          Swal.fire({
+                  title: 'Sign up fail  ',
+                  animation: true,
+                  type: 'error',
+                  customClass: {
+                    popup: 'animated tada'
+                  }
+          })
+      }
+  }
+  state={
+    isSignup:false,
+    email:"",
+    password:"",
+    confirmPassword:"",
+    isInputValid: true,
+    errorMessage: ''
+}
     handleChange=(e)=>{
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -54,31 +79,7 @@ class SignUp extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.todos.isSignup && this.state.isInputValid){
-            Swal.fire({
-                title: 'Sign up success ',
-                animation: true,
-                type: 'success',
-                customClass: {
-                  popup: 'animated tada'
-                }
-            
-        })  
-            this.setState({
-                isSignup:true
-            })
-        }else{
-            Swal.fire({
-                    title: 'Sign up fail  ',
-                    animation: true,
-                    type: 'error',
-                    customClass: {
-                      popup: 'animated tada'
-                    }
-            })
-        }
-    }
+   
     signup=()=>{
         if(!this.state.email || !this.state.password || !this.state.confirmPassword){
             Swal.fire({

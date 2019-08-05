@@ -8,12 +8,20 @@ class Profile_Content extends Component {
 
     componentWillReceiveProps(nextProps){
         let user=nextProps.todos;
-        if(user.isGetProfile){
+        console.log(user)
+        if(user.isGetProfile && user.data !==null){
             this.setState({
-                display_name:user.data.data.display_name,
-                display_info:user.data.data.display_info,
-                phone:user.data.data.phone,
-                avatar:user.data.data.avatar
+                display_name:user.data.display_name,
+                display_info:user.data.display_info,
+                phone:user.data.phone,
+                avatar:user.data.avatar
+            })
+        }else{
+            this.setState({
+                display_name:"",
+                display_info:"",
+                phone:"",
+                avatar:""
             })
         }
         if(user.isSet){
@@ -47,9 +55,39 @@ class Profile_Content extends Component {
         confirmPassword:"",
         isUpdate:false,
         file: "",
-        avatar: ""
+        avatar: "", isInputValid: false,
+        errorMessage: ""
     }
-
+    FormError=(isHidden,errorMessage) =>{
+        if (isHidden) {return null;}
+        return (
+          <div className="form-warning" >
+              {errorMessage}
+          </div>
+        )
+      }
+    
+    handleInputValidation = event => {
+        const { isInputValid, errorMessage } = this.validateInput(this.state.phone);
+        this.setState({
+          isInputValid: isInputValid,
+          errorMessage: errorMessage
+        })
+      }
+     validateInput = (checkingText) => {
+        const regexp =/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+        if (regexp.exec(checkingText) !== null) {
+            return {
+                isInputValid: true,
+                errorMessage: ''
+            };
+        } else {
+            return {
+                isInputValid: false,
+                errorMessage: 'Email not valid (abc@vn.com)'
+            };
+        }
+    }
     updateInfo = () =>{
         const {display_name,display_info, phone,avatar}=this.state;
         if(!this.state.password || !this.state.display_name ||
@@ -172,6 +210,8 @@ class Profile_Content extends Component {
                             <div className="col-xs-6 div-input">
                             <label>Phone Number</label><br></br>
                                  <input type="text" name="phone" defaultValue={this.state.phone}onChange={this.handleChange} placeholder="Phone"></input>
+                                 {this.FormError(this.state.isInputValid,
+                        this.state.errorMessage)}
                             </div>
                         </div>
                         <div className="row form-group">

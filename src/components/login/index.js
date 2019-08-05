@@ -138,8 +138,7 @@ import Swal from 'sweetalert2'
                 showConfirmButton: false,
                 timer: 1500
               })
-            localStorage.setItem("user",JSON.stringify({email:this.state.email,
-                password:this.state.password,data:this.state.data}))
+            localStorage.setItem("user",JSON.stringify({email:this.state.email,data:this.state.data}))
             return <Redirect to="/profile"></Redirect>
           }
         return (
