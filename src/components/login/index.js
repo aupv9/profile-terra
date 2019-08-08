@@ -139,7 +139,8 @@ import Swal from 'sweetalert2'
                 timer: 1500
               })
             localStorage.setItem("user",JSON.stringify({email:this.state.email,data:this.state.data}))
-            return <Redirect to="/profile"></Redirect>
+            // return <Redirect to="/profile"></Redirect>
+            //this.props.history.push('/profile')
           }
         return (
 
